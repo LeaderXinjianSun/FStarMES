@@ -39,7 +39,7 @@ builder.Services.AddShardingDbContext<MyDbContext>().AddEntityConfig(options =>
     op.ReplaceTableEnsureManager(sp => new MySqlTableEnsureManager<MyDbContext>());
 }).EnsureConfig();
 var app = builder.Build();
-
+//builder.WebHost.UseUrls("https://0.0.0.0:5051;http://0.0.0.0:5050");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
