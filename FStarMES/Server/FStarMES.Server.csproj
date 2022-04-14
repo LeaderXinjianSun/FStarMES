@@ -8,9 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ShardingCore" Version="6.4.2.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FStarMES.Data\FStarMES.Data.csproj" />
     <ProjectReference Include="..\Client\FStarMES.Client.csproj" />
     <ProjectReference Include="..\Shared\FStarMES.Shared.csproj" />
   </ItemGroup>
