@@ -1,0 +1,37 @@
+﻿@page "/setting/add"
+@inject NavigationManager NavigationManager
+<head>添加线体设置</head>
+<div>
+    <Form @ref="_form" Model="formData" OnFinish="@OnFinish">   
+        <FormItem Label="线体">
+            <Input @bind-Value="@context.Line" />
+        </FormItem>
+
+        <FormItem Label="目标产量">
+            <Input @bind-Value="@context.GoalCount" />
+        </FormItem>
+        <FormItem Label="班次">
+            <RadioGroup @bind-Value="@context.ShiftType">
+                <Radio RadioButton Value="@ShiftTypeEnum.Day">白班</Radio>
+                <Radio RadioButton Value="@ShiftTypeEnum.Night">夜班</Radio>
+            </RadioGroup>
+        </FormItem>
+        <FormItem>
+            <Button Type="@ButtonType.Primary" HtmlType="submit">
+                Submit
+            </Button>
+        </FormItem>
+    </Form>
+</div>
+@code {
+    [Inject]
+    public HttpClient? Http { get; set; }
+    AntDesign.Internal.IForm _form;
+    AddSettingReq formData = new() { ShiftType = ShiftTypeEnum.Day, GoalCount = 5000 };
+    public int Index { get; set; }
+    async void OnFinish()
+    {
+        var httpRsp = await Http.PostAsJsonAsync("api/FStarMES/AddSetting", formData);
+        NavigationManager.NavigateTo($"setting");
+    }
+}

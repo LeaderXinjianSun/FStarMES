@@ -1,44 +1,75 @@
 ﻿@page "/setting"
 @using FStarMES.Shared
-
+@inject NavigationManager NavigationManager
 <div>
     <Table DataSource="@settingList">
         <Column @bind-Field="@context.Id" Title="序号" Sortable />
         <Column @bind-Field="@context.Line" Title="线别" Sortable />
         <Column @bind-Field="@context.GoalCount" Title="目标产量" Sortable />
         <Column @bind-Field="@context.ShiftType" Title="班别" Sortable />
-       <ActionColumn>
+       <ActionColumn Title="操作">
             <Space>
                 <SpaceItem><Button Type="@ButtonType.Primary" OnClick="()=>Update(context.Id)">更新</Button></SpaceItem>
             </Space>
         </ActionColumn>
-        <ActionColumn>
+        <ActionColumn Title="操作">
             <Space>
                 <SpaceItem><Button Type="@ButtonType.Primary" Danger OnClick="()=>Delete(context.Id)">删除</Button></SpaceItem>
             </Space>
         </ActionColumn>
+        
     </Table>
+    <Button Type="@ButtonType.Primary" OnClick="@Add">添加</Button>
 </div>
-
+<Modal Title="警告"
+       Visible="@_visible"
+       OnOk="@HandleOk"
+       OnCancel="@HandleCancel">
+    <p>@MessageBox</p>
+</Modal>
 @code
 {
     [Inject]
     public HttpClient? Http { get; set; }
     private List<LineSeting> settingList = new List<LineSeting>();
+    bool _visible = false;
+    string? MessageBox;
+    int deleteId = 0;
     protected override async void OnInitialized()
     {
         var httpRsp = await Http.GetAsync("api/FStarMES/GetAllSettings");
         settingList = await httpRsp.Content.ReadFromJsonAsync<List<LineSeting>>();
         StateHasChanged();
         base.OnInitialized();
-     
+
+    }
+    private async void HandleOk(MouseEventArgs e)
+    {
+
+        _visible = false;
+        await Http.PostAsJsonAsync("api/FStarMES/DeletSetting", new DeletSettingReq() { Id = deleteId });
+        var httpRsp = await Http.GetAsync("api/FStarMES/GetAllSettings");
+        settingList = await httpRsp.Content.ReadFromJsonAsync<List<LineSeting>>();
+        StateHasChanged();
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+
+        _visible = false;
     }
     private void Delete(int id)
     {
-
+        deleteId = id;
+        MessageBox = $"你确定删除Id={id}项目吗？";
+        _visible = true;
     }
     private void Update(int id)
     {
-
+        NavigationManager.NavigateTo($"setting/update/{id}");
+    }
+    private void Add()
+    {
+        NavigationManager.NavigateTo($"setting/add");
     }
 }

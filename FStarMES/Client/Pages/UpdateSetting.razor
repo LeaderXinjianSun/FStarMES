@@ -1,0 +1,46 @@
+﻿@page "/setting/update/{Index}"
+@inject NavigationManager NavigationManager
+<head>更改线体设置</head>
+<div>
+    <h3>@Title1</h3>
+    <Form @ref="_form" Model="formData" OnFinish="@OnFinish">   
+
+        <FormItem Label="目标产量">
+            <Input @bind-Value="@context.GoalCount" />
+        </FormItem>
+
+        <FormItem>
+            <Button Type="@ButtonType.Primary" HtmlType="submit">
+                Submit
+            </Button>
+        </FormItem>
+    </Form>
+</div>
+@code{
+    [Inject]
+    public HttpClient? Http { get; set; }
+    AntDesign.Internal.IForm _form;
+    UpdateSettingReq formData = new UpdateSettingReq();
+    [Parameter]
+    public string? Index { get; set; }
+    public string? Title1 { get; set; }
+    protected override async void OnInitialized()
+    {
+        GetSettingReq getReq = new GetSettingReq() { Id = int.Parse(Index)};
+        var httpRsp = await Http.PostAsJsonAsync("api/FStarMES/GetSetting", getReq);
+        var setting = await httpRsp.Content.ReadFromJsonAsync<LineSeting>();
+        if (setting != null)
+        {
+            Title1 = $"更新{setting.Line}{(setting.ShiftType == ShiftTypeEnum.Day ? "白班" : "夜班")}设置";
+            formData.Id = setting.Id;
+            formData.GoalCount = setting.GoalCount;
+            StateHasChanged();
+        }
+        base.OnInitialized();
+    }
+    async void OnFinish()
+    {
+        var httpRsp = await Http.PostAsJsonAsync("api/FStarMES/UpdateSetting", formData);
+        NavigationManager.NavigateTo($"setting");
+    }
+}

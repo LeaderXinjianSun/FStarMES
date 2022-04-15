@@ -53,6 +53,43 @@ namespace FStarMES.Server.Controllers
         {
             return Context.Set<LineSeting>().ToList();
         }
+        public void AddSetting(AddSettingReq req)
+        {
+            int id = 1;
+            if (Context.Set<LineSeting>().Count() > 0)
+            {
+                id = Context.Set<LineSeting>().ToList().Max(t => t.Id) + 1;
+            }
+            Context.Add<LineSeting>(new LineSeting() { 
+                Id = id,
+                Line = req.Line,
+                GoalCount = req.GoalCount,
+                ShiftType = req.ShiftType
+            });
+            Context.SaveChanges();
+        }
+        public void DeletSetting(DeletSettingReq req)
+        {
+            var item = Context.Set<LineSeting>().FirstOrDefault(t => t.Id == req.Id);
+            if (item != null)
+            {
+                Context.Set<LineSeting>().Remove(item);
+                Context.SaveChanges();
+            }
+        }
+        public LineSeting? GetSetting(GetSettingReq req)
+        {
+            return Context.Set<LineSeting>().FirstOrDefault(t => t.Id == req.Id);
+        }
+        public void UpdateSetting(UpdateSettingReq req)
+        {
+            var setting = Context.Set<LineSeting>().FirstOrDefault(t => t.Id == req.Id);
+            if (setting != null)
+            {
+                setting.GoalCount = req.GoalCount;
+                Context.SaveChanges();
+            }
+        }
         public FStarMESController(MyDbContext myDbContext)
         {
             Context = myDbContext;
