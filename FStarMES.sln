@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FStarMES.Server", "FStarMES\Server\FStarMES.Server.csproj", "{60026D83-8F02-4577-A157-FF7B2E594F68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FStarMES.Server", "FStarMES\Server\FStarMES.Server.csproj", "{60026D83-8F02-4577-A157-FF7B2E594F68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FStarMES.Client", "FStarMES\Client\FStarMES.Client.csproj", "{E1CE64A6-71FD-48DC-B03C-8C091899F076}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FStarMES.Client", "FStarMES\Client\FStarMES.Client.csproj", "{E1CE64A6-71FD-48DC-B03C-8C091899F076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FStarMES.Shared", "FStarMES\Shared\FStarMES.Shared.csproj", "{A7C8DD48-A8AE-4039-A915-E6919AA70555}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FStarMES.Shared", "FStarMES\Shared\FStarMES.Shared.csproj", "{A7C8DD48-A8AE-4039-A915-E6919AA70555}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FStarMES.Data", "FStarMES.Data\FStarMES.Data.csproj", "{E2393F9A-BCEC-4FD9-B77F-052DE3552686}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FStarMES.Data", "FStarMES.Data\FStarMES.Data.csproj", "{E2393F9A-BCEC-4FD9-B77F-052DE3552686}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

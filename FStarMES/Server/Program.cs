@@ -57,6 +57,7 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
+
 app.Services.GetRequiredService<IShardingBootstrapper>().Start();
 using (var scope = app.Services.CreateScope())
 {

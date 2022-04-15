@@ -1,0 +1,44 @@
+﻿@page "/setting"
+@using FStarMES.Shared
+
+<div>
+    <Table DataSource="@settingList">
+        <Column @bind-Field="@context.Id" Title="序号" Sortable />
+        <Column @bind-Field="@context.Line" Title="线别" Sortable />
+        <Column @bind-Field="@context.GoalCount" Title="目标产量" Sortable />
+        <Column @bind-Field="@context.ShiftType" Title="班别" Sortable />
+       <ActionColumn>
+            <Space>
+                <SpaceItem><Button Type="@ButtonType.Primary" OnClick="()=>Update(context.Id)">更新</Button></SpaceItem>
+            </Space>
+        </ActionColumn>
+        <ActionColumn>
+            <Space>
+                <SpaceItem><Button Type="@ButtonType.Primary" Danger OnClick="()=>Delete(context.Id)">删除</Button></SpaceItem>
+            </Space>
+        </ActionColumn>
+    </Table>
+</div>
+
+@code
+{
+    [Inject]
+    public HttpClient? Http { get; set; }
+    private List<LineSeting> settingList = new List<LineSeting>();
+    protected override async void OnInitialized()
+    {
+        var httpRsp = await Http.GetAsync("api/FStarMES/GetAllSettings");
+        settingList = await httpRsp.Content.ReadFromJsonAsync<List<LineSeting>>();
+        StateHasChanged();
+        base.OnInitialized();
+     
+    }
+    private void Delete(int id)
+    {
+
+    }
+    private void Update(int id)
+    {
+
+    }
+}

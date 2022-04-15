@@ -49,6 +49,10 @@ namespace FStarMES.Server.Controllers
             }
             
         }
+        public List<LineSeting> GetAllSettings()
+        {
+            return Context.Set<LineSeting>().ToList();
+        }
         public FStarMESController(MyDbContext myDbContext)
         {
             Context = myDbContext;
