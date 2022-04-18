@@ -2,8 +2,45 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<div>
+    <Form @ref="_form" Model="@formData" OnFinish="OnFinish">
+        <FormItem Label="请选择日期">
+            <DatePicker @bind-Value="@context.DatePicker" />
+        </FormItem>
+        <FormItem WrapperColOffset="8" WrapperColSpan="16">
+            <Button HtmlType="submit">
+                Submit
+            </Button>
+        </FormItem>
+    </Form>
+    <Table @ref="table" DataSource="@reports">
+        <Column @bind-Field="@context.Line" Title="线别" Sortable />
+        <Column @bind-Field="@context.Date" Title="生产日期" Sortable />
+        <Column @bind-Field="@context.Month" Title="月份" Sortable />
+        <Column @bind-Field="@context.ShiftType" Title="班别" Sortable />
+        <Column @bind-Field="@context.ProductType" Title="产品" Sortable />
+        <Column @bind-Field="@context.Count" Title="目标值" Sortable />
+        <Column @bind-Field="@context.GoalCount" Title="目标值" Sortable />
+        <Column @bind-Field="@context.FillRate" Title="完成率" Sortable />
+        <Column @bind-Field="@context.NotReachRate" Title="未完成率" Sortable />
+        <Column @bind-Field="@context.HaltRange" Title="停产时间" Sortable />
+        <Column @bind-Field="@context.HaltType" Title="停产分类" Sortable />
+        <Column @bind-Field="@context.HaltReason" Title="停产原因" Sortable />
+        <Column @bind-Field="@context.HaltElapse" Title="停产总时间" Sortable />
+    </Table>
+</div>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    AntDesign.Internal.IForm _form;
+    ITable table;
+    [Inject]
+    public HttpClient? Http { get; set; }
+    DateSelectReq formData = new DateSelectReq();
+    private List<Report> reports = new List<Report>();
+    async void OnFinish()
+    {
+        var httpRsp = await Http.PostAsJsonAsync("api/FStarMES/Check", formData);
+        reports = await httpRsp.Content.ReadFromJsonAsync<List<Report>>();
+        StateHasChanged();
+    }
+}

@@ -90,6 +90,11 @@ namespace FStarMES.Server.Controllers
                 Context.SaveChanges();
             }
         }
+        public Task<List<Report>> CheckAsync(DateSelectReq req)
+        {
+            List<Report> reports = new List<Report>();
+            return Task.FromResult(reports);
+        }
         public FStarMESController(MyDbContext myDbContext)
         {
             Context = myDbContext;

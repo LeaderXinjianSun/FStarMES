@@ -1,6 +1,7 @@
 ﻿@page "/setting"
 @using FStarMES.Shared
 @inject NavigationManager NavigationManager
+<PageTitle>Setting</PageTitle>
 <div>
     <Table DataSource="@settingList">
         <Column @bind-Field="@context.Id" Title="序号" Sortable />

@@ -11,7 +11,7 @@ namespace FStarMES.Shared
     {
         public int Id { get; set; }
         [Required]
-        public string Line { get; set; }
+        public string? Line { get; set; }
         [Required]
         public int GoalCount { get; set; }
         [Required]
