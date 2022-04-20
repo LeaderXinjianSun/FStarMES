@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
 builder.Services.AddShardingDbContext<MyDbContext>().AddEntityConfig(options =>
 {
     //如果您使用code-first建议选择false
@@ -38,8 +39,9 @@ builder.Services.AddShardingDbContext<MyDbContext>().AddEntityConfig(options =>
     //op.AddDefaultDataSource("ds0", "server=127.0.0.1;port=3306;database=db2;userid=root;password=L6yBtV6qNENrwBy7;")
     op.ReplaceTableEnsureManager(sp => new MySqlTableEnsureManager<MyDbContext>());
 }).EnsureConfig();
-var app = builder.Build();
 //builder.WebHost.UseUrls("https://0.0.0.0:5051;http://0.0.0.0:5050");
+var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

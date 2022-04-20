@@ -10,6 +10,6 @@ namespace FStarMES.Shared
     public class DateSelectReq
     {
         [Required]
-        public DateTime? DatePicker { get; set; }
+        public DateTime DatePicker { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace FStarMES.Shared
         public int Count { get; set; }
         public int TotalCount { get; set; }
         public StateStatusEnum StateStatus { get; set; }
-        public string? StateDetail { get; set; }
+        public string StateDetail { get; set; }
         public string ProductType { get; set; }
         public DateTime CreationTime { get; set; }
     }

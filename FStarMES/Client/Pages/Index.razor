@@ -7,40 +7,50 @@
         <FormItem Label="请选择日期">
             <DatePicker @bind-Value="@context.DatePicker" />
         </FormItem>
-        <FormItem WrapperColOffset="8" WrapperColSpan="16">
+        <FormItem  WrapperColSpan="16">
             <Button HtmlType="submit">
-                Submit
+                查询
             </Button>
         </FormItem>
     </Form>
-    <Table @ref="table" DataSource="@reports">
-        <Column @bind-Field="@context.Line" Title="线别" Sortable />
-        <Column @bind-Field="@context.Date" Title="生产日期" Sortable />
-        <Column @bind-Field="@context.Month" Title="月份" Sortable />
-        <Column @bind-Field="@context.ShiftType" Title="班别" Sortable />
-        <Column @bind-Field="@context.ProductType" Title="产品" Sortable />
-        <Column @bind-Field="@context.Count" Title="目标值" Sortable />
-        <Column @bind-Field="@context.GoalCount" Title="目标值" Sortable />
-        <Column @bind-Field="@context.FillRate" Title="完成率" Sortable />
-        <Column @bind-Field="@context.NotReachRate" Title="未完成率" Sortable />
-        <Column @bind-Field="@context.HaltRange" Title="停产时间" Sortable />
-        <Column @bind-Field="@context.HaltType" Title="停产分类" Sortable />
-        <Column @bind-Field="@context.HaltReason" Title="停产原因" Sortable />
-        <Column @bind-Field="@context.HaltElapse" Title="停产总时间" Sortable />
-    </Table>
+    <Spin Spinning="@isLoading">
+        <div class="search-result-list">
+            <Table @ref="table" DataSource="@reports">
+                <Column @bind-Field="@context.Line" Title="线别" Sortable />
+                <Column @bind-Field="@context.Date" Format="yyyy-MM-dd" Title="生产日期" Sortable />
+                <Column @bind-Field="@context.Month" Title="月份" Sortable />
+                <Column @bind-Field="@context.ShiftType" Title="班别" Sortable />
+                <Column @bind-Field="@context.ProductType" Title="产品" Sortable />
+                <Column @bind-Field="@context.Count" Title="目标值" Sortable />
+                <Column @bind-Field="@context.GoalCount" Title="目标值" Sortable />
+                <Column @bind-Field="@context.FillRate" Title="完成率" Sortable />
+                <Column @bind-Field="@context.NotReachRate" Title="未完成率" Sortable />
+                <Column @bind-Field="@context.HaltRange" Title="停产时间" Sortable />
+                <Column @bind-Field="@context.HaltType" Title="停产分类" Sortable />
+                <Column @bind-Field="@context.HaltReason" Title="停产原因" Sortable />
+                <Column @bind-Field="@context.HaltElapse" Title="停产总时间" Sortable />
+            </Table>
+        </div>
+    </Spin>
+
 </div>
 
 @code {
     AntDesign.Internal.IForm _form;
     ITable table;
+    bool isLoading = false;
     [Inject]
     public HttpClient? Http { get; set; }
-    DateSelectReq formData = new DateSelectReq();
+    DateSelectReq formData = new DateSelectReq() {DatePicker = DateTime.Now.Date };
     private List<Report> reports = new List<Report>();
     async void OnFinish()
     {
+        reports.Clear();
+        isLoading = true;
         var httpRsp = await Http.PostAsJsonAsync("api/FStarMES/Check", formData);
         reports = await httpRsp.Content.ReadFromJsonAsync<List<Report>>();
+        StateHasChanged();
+        isLoading = false;
         StateHasChanged();
     }
 }
