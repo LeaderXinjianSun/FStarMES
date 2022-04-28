@@ -3,6 +3,7 @@
 <PageTitle>Index</PageTitle>
 
 <div>
+    @*<Button OnClick=@TestClick>Test</Button>*@
     <Form @ref="_form" Model="@formData" OnFinish="OnFinish">
         <FormItem Label="请选择日期">
             <DatePicker @bind-Value="@context.DatePicker" />
@@ -52,5 +53,10 @@
         StateHasChanged();
         isLoading = false;
         StateHasChanged();
+    }
+    async void TestClick()
+    {
+        
+        //var result = await Http.GetAsync("api/Auth/GetUser");
     }
 }

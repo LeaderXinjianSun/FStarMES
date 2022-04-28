@@ -2,26 +2,36 @@
 @using FStarMES.Shared
 @inject NavigationManager NavigationManager
 <PageTitle>Setting</PageTitle>
-<div>
-    <Table DataSource="@settingList">
-        <Column @bind-Field="@context.Id" Title="序号" Sortable />
-        <Column @bind-Field="@context.Line" Title="线别" Sortable />
-        <Column @bind-Field="@context.GoalCount" Title="目标产量" Sortable />
-        <Column @bind-Field="@context.ShiftType" Title="班别" Sortable />
-       <ActionColumn Title="操作">
-            <Space>
-                <SpaceItem><Button Type="@ButtonType.Primary" OnClick="()=>Update(context.Id)">更新</Button></SpaceItem>
-            </Space>
-        </ActionColumn>
-        <ActionColumn Title="操作">
-            <Space>
-                <SpaceItem><Button Type="@ButtonType.Primary" Danger OnClick="()=>Delete(context.Id)">删除</Button></SpaceItem>
-            </Space>
-        </ActionColumn>
-        
-    </Table>
-    <Button Type="@ButtonType.Primary" OnClick="@Add">添加</Button>
-</div>
+
+<AuthorizeView>
+    <Authorized>
+        <div>
+            <Table DataSource="@settingList" Context="context1">
+                <Column @bind-Field="@context1.Id" Title="序号" Sortable />
+                <Column @bind-Field="@context1.Line" Title="线别" Sortable />
+                <Column @bind-Field="@context1.GoalCount" Title="目标产量" Sortable />
+                <Column @bind-Field="@context1.ShiftType" Title="班别" Sortable />
+                <ActionColumn Title="操作">
+                    <Space>
+                        <SpaceItem><Button Type="@ButtonType.Primary" OnClick="()=>Update(context1.Id)">更新</Button></SpaceItem>
+                    </Space>
+                </ActionColumn>
+                <ActionColumn Title="操作">
+                    <Space>
+                        <SpaceItem><Button Type="@ButtonType.Primary" Danger OnClick="()=>Delete(context1.Id)">删除</Button></SpaceItem>
+                    </Space>
+                </ActionColumn>
+
+            </Table>
+            <Button Type="@ButtonType.Primary" OnClick="@Add">添加</Button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h3>请先登录</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+
 <Modal Title="警告"
        Visible="@_visible"
        OnOk="@HandleOk"
